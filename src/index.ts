@@ -3,7 +3,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import './index.css';
 
 
-
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight,
