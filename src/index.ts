@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import './index.css';
-
+import GUI from 'lil-gui'; 
+import fragmentShader from './shaders/fragment.glsl';
 
 const sizes = {
     width: window.innerWidth,
@@ -9,8 +10,8 @@ const sizes = {
 }
 
 // Material 
-const material = new THREE.MeshBasicMaterial({
-    color: "#ffffff",
+const material = new THREE.ShaderMaterial({
+    fragmentShader: fragmentShader,
     side: THREE.DoubleSide,
 })
 
