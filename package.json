@@ -1,7 +1,19 @@
 {
   "name": "sea",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "author": "KirillSDev",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "three": "^0.164.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.164.1",
+    "vite": "^5.2.11"
+  }
 }
