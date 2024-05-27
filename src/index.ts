@@ -7,6 +7,8 @@ import waterVertexShader from './shaders/water/vertex.glsl';
 
 const variables = {
     wavesElevation: 0.2,
+    deepColor: "#18598c",
+    highColor: "#30d4fd",
 }
 const sizes = {
     width: window.innerWidth,
@@ -21,7 +23,7 @@ const material = new THREE.ShaderMaterial({
     fragmentShader: waterFragmentShader,
     vertexShader: waterVertexShader,
     side: THREE.DoubleSide,
-    wireframe: true,
+    wireframe: false,
     uniforms: {
         u_time: {
             value: clock.getElapsedTime()
@@ -34,13 +36,31 @@ const material = new THREE.ShaderMaterial({
         },
         u_speedWaves: {
             value: 1,
+        },
+        u_deepColor: {
+            value: new THREE.Color(variables.deepColor),
+        },
+        u_highColor: {
+            value: new THREE.Color(variables.highColor),
+        },
+        u_smallWavesFrequency: {
+            value: 3.0
+        },
+        u_smallWavesSpeed: {
+            value: 1.0
+        },
+        u_smallWavesElevation: {
+            value: 0.15
+        },
+        u_smallWavesIteration: {
+            value: 5
         }
     }
 })
 
 
 // Geometry
-const geometryPlane = new THREE.PlaneGeometry(2, 2, 128, 128);
+const geometryPlane = new THREE.PlaneGeometry(2, 2, 512, 512);
 
 // Mesh
 const sea = new THREE.Mesh(geometryPlane, material);
@@ -56,6 +76,8 @@ camera.position.z = 4;
 const orbitControls = new OrbitControls(camera, canvas);
 scene.add(sea);
 
+scene.fog = new THREE.Fog(0xff0000, 3, 20);
+scene.background =  new THREE.Color('#000000');
 
 
 
@@ -72,6 +94,12 @@ gui.add(material.uniforms.u_wavesElevation, 'value', 0, 1, 0.01).name('u_wavesEl
 gui.add(material.uniforms.u_wavesFrequency.value, 'x', 0, 30, 1).name('u_wavesFrequency_x');
 gui.add(material.uniforms.u_wavesFrequency.value, 'y', 0, 30, 1).name('u_wavesFrequency_y');
 gui.add(material.uniforms.u_speedWaves, 'value', 0, 10, 0.01).name('u_wavesSpeed');
+gui.add(material.uniforms.u_smallWavesElevation, 'value', 0, 1, 0.01).name('u_smallWavesElevation');
+gui.add(material.uniforms.u_smallWavesFrequency, 'value', 0, 30, 0.01).name('u_smallWavesFrequency');
+gui.add(material.uniforms.u_smallWavesSpeed, 'value', 0, 3, 0.01).name('u_smallWavesSpeed');
+gui.add(material.uniforms.u_smallWavesIteration, 'value', 1, 10, 1).name('u_smallWavesIteration');
+gui.addColor(variables, 'deepColor').onChange(() => material.uniforms.u_deepColor.value = new THREE.Color(variables.deepColor));
+gui.addColor(variables, 'highColor').onChange(() => material.uniforms.u_highColor.value = new THREE.Color(variables.highColor));
 
 const tick = () => {
     renderer.setSize(sizes.width, sizes.height);
